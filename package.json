@@ -1,0 +1,25 @@
+{
+  "name": "resolver",
+  "version": "1.0.0",
+  "description": "Browse the web with keywords",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghomasHudson/resolver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ghomasHudson/resolver/issues"
+  },
+  "homepage": "https://github.com/ghomasHudson/resolver#readme",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "mongodb": "^2.2.31",
+    "request": "^2.82.0"
+  }
+}
