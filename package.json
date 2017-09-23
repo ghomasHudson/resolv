@@ -2,9 +2,9 @@
   "name": "resolver",
   "version": "1.0.0",
   "description": "Browse the web with keywords",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
