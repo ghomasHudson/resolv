@@ -16,7 +16,7 @@
   <script src="keywordController.js"></script>
 
 	</head>
-<body ng-app="keywordApp" ng-controller="addKeywordController">
+<body ng-app="keywordApp">
 
     <div class="container">
       <div class="header clearfix">
@@ -34,40 +34,25 @@
       <hr>
       <h4>Lookup</h4>
 
-<form class="form-horizontal clearfix">
+<form class="form-horizontal clearfix" ng-controller="lookupKeywordController">
   <div class="col-md-3"></div>
-<div class="col-md-6">
+  <div class="col-md-6">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="Lookup existing keywords.." aria-describedby="basic-addon2">
+        <input type="text" class="form-control" placeholder="Lookup existing keywords.." ng-model="keywordLookup">
         <span class="input-group-addon" id="basic-addon2"><span class="glyphicon glyphicon-search"></span>
       </div>
     </div>
+    <br><br><br>
+    <dl class="dl-horizontal" ng-show="results!=null && keywordLookup.length>0" ng-cloak>
+        <dt>URL</dt>
+        <dd>{{results.url}}</dd>
+        <dt>Source</dt>
+        <dd>{{results.source}}</dd>
+      </dl>
 </form>
 <hr>
   <h4>Add Keyword</h4>
-      <div class="well">
-          <div class="form-group">
-            <label>Keyword</label>
-            <input type="text" class="form-control" ng-model="newKeyword.keyword" placeholder="E.g. google">
-          </div>
-          <div class="form-group">
-            <label>URL</label>
-            (Add %s as a placeholder for searches)
-            <input type="text" class="form-control" ng-model="newKeyword.url" placeholder="E.g. https://www.google.co.uk/search?q=%s">
-          </div>
-          <div class="form-group" ng-hide="true">
-            <label for="exampleInputEmail2"><input disabled type="checkbox" ng-model="newKeyword.localStorage" > Only me</label> (Keyword is stored locally)
-          </div>
-          <button class="btn btn-primary" ng-click="submitKeyword()">Submit</button>
-          <br><br>
-          <div class="alert alert-success" role="alert" ng-if="state==1">
-            <b>Success!</b> Your keyword has now been added.
-          </div>
-          <div class="alert alert-danger" role="alert" ng-if="state==2">
-            <b>Oh snap!</b> Your keyword could not be added.
-          </div>
-   </div>
-
+      <div ng-include="'partials/addKeyword.html'"></div>
       
       <footer class="footer">
         <p>© 2016 Company, Inc.</p>

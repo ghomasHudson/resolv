@@ -1,0 +1,22 @@
+<div class="well" ng-controller="addKeywordController">
+          <div class="form-group">
+            <label>Keyword</label>
+            <input type="text" class="form-control" ng-model="newKeyword.keyword" placeholder="E.g. google">
+          </div>
+          <div class="form-group">
+            <label>URL</label>
+            (Add %s as a placeholder for searches)
+            <input type="url" class="form-control" ng-model="newKeyword.url" placeholder="E.g. https://www.google.co.uk/search?q=%s" id="url">
+          </div>
+          <div class="form-group" ng-hide="true" ng-cloak>
+            <label for="exampleInputEmail2"><input disabled type="checkbox" ng-model="newKeyword.localStorage" > Only me</label> (Keyword is stored locally)
+          </div>
+          <button class="btn btn-primary" ng-click="submitKeyword()" ng-disabled="!newKeyword.url.length>0 || newKeyword.keyword.length <= 0">Submit</button>
+          <br><br>
+          <div class="alert alert-success" role="alert" ng-if="state==1" ng-cloak>
+            <b>Success!</b> Your keyword has now been added.
+          </div>
+          <div class="alert alert-danger" role="alert" ng-if="state==2" ng-cloak>
+            <b>Oh snap!</b> Your keyword could not be added - {{errorMsg}}.
+          </div>
+   </div>

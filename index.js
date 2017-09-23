@@ -25,9 +25,8 @@ function validURL(str) {
   }
 }
 
-//Routes
-app.get('/resolve', function (req, res) {
-	qSplit = req.query.q.split("-")
+function resolve(query,callback){
+	qSplit = query.split("-")
 	var q = qSplit[0];
 
 	var searchString = '';
@@ -36,12 +35,11 @@ app.get('/resolve', function (req, res) {
 	}
 
 	if (q == "home" || q == "resolver"){
-		res.redirect("/");
+		callback(null,"/","built in")
 		return;
 	}
 	if (q == "keyword" || q == "keywords"){
-		res.redirect("/keywords.html");
-
+		callback(null,"/keywords.html","built in")
 		return;
 	}
 
@@ -49,25 +47,57 @@ app.get('/resolve', function (req, res) {
 
 	//Check local db first
 	db.collection('keywords').findOne({keyword:q},function(err,result){
-		console.log(result)
 		if (result != null){
-			res.redirect(result["url"])
+			callback(null,result["url"],"database")
+			return;			
 		}
 		else{
 			 //Look for duck duck go bangs
 			request('http://api.duckduckgo.com/?q=!'+q+'+'+searchString+'&format=json&pretty=1&no_redirect=1', function (error, response, body) {
 			 	body = JSON.parse(body)
 			 	if (body["Redirect"] != ""){
-			 		res.redirect(body["Redirect"])
+			 		callback(null,body["Redirect"],"duck duck go bangs")
+			 		return;
 			 	}else{
 			 		//404
-			 		res.status(404).sendFile(path.join(__dirname+'/404.html'))
+			 		callback("404");
 			 	}
 			});
 		}
 	});
+}
 
-	
+//Routes
+
+//Resolve keyword
+app.get('/resolve', function (req, res) {
+	resolve(req.query.q,function(e,url,source){
+		if (e){
+			res.status(404).sendFile(path.join(__dirname+'/404.html'))
+		}
+		else{
+			//Log
+			qSplit = req.query.q.split("-")
+			var q = qSplit[0];
+			var searchString = '';
+			db.collection('log').insertOne({"keyword":qSplit[0]});
+
+			//Redirect
+			res.redirect(url)
+		}
+	})
+})
+
+//Check keyword
+app.get('/keyword/:kw', function (req, res) {
+	resolve(req.params.kw,function(e,url,source){
+		if (e){
+			res.send(404);
+		}
+		else{
+			res.json({"url":url,"source":source})
+		}
+	})
 })
 
 //Add new keyword
@@ -75,13 +105,25 @@ app.post('/keyword', function (req, res) {
 	console.log(req.body)
 	if (!req.body["localStorage"] && validURL(req.body["url"])){
 		delete req.body["localStorage"]
-		db.collection('keywords').insertOne(req.body)
-		res.send(200)
+		db.collection('keywords').insertOne(req.body,function(e){
+			if (e){
+				res.status(400).json({"error":"Duplicate keyword"});
+			}else{
+				res.send(200);
+			}
+		});
 	}else{
-		res.send(400)
+		res.status(400).json({"error":"Bad URL"})
 	}
 })
 
+//Get most recent
+app.get('/recent', function (req, res) {
+	db.collection('log').find({},{"limit":50,"sort":{_id:-1}}).toArray(function(err, results){
+	    res.json(results);
+	});
+
+})
 
 app.use(express.static('static'))
 
@@ -96,7 +138,9 @@ app.use(function(req, res) {
 var db;
 MongoClient.connect(url, function(err, database){
   if (err) return console.log(err)
-  db = database
+  db = database;
+  db.collection('keywords').createIndex( { "keyword": 1 }, { unique: true } )
+  db.createCollection("log", { capped: true, size: 1000 } )
   app.listen(8080, function () {
   console.log('Resolve app listening on port 8080!')
 })

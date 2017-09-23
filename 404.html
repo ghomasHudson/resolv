@@ -12,6 +12,7 @@
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
   <script src="keywordController.js"></script>
 
@@ -31,9 +32,10 @@
         <h3 class="text-muted">Resolver</h3>
       </div>
       <h1>404</h1>
-      <h4 ng-cloak>The keyword {{requestedKeyword}} cannot be found - Add it?</h4>
+      <h4 ng-cloak ng-if="requestedKeyword != null">The keyword <b>{{requestedKeyword}}</b >cannot be found - Add it?</h4>
+      <h4 ng-cloak ng-if="requestedKeyword == null">Page not found</h4>
       <hr>
-      
+      <div ng-if="requestedKeyword != null" ng-include="'partials/addKeyword.html'"></div>
 
 
       <footer class="footer">
