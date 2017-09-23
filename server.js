@@ -48,6 +48,10 @@ function resolve(query,callback){
 	//Check local db first
 	db.collection('keywords').findOne({keyword:q},function(err,result){
 		if (result != null){
+
+			//check for %s
+			result["url"] = result["url"].replace(/%s/g, qSplit[1]);
+
 			callback(null,result["url"],"database")
 			return;			
 		}
