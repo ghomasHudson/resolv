@@ -79,3 +79,8 @@ body {
     border-bottom: 0;
   }
 }
+
+code{
+  background-color: black;
+  color:white;
+}

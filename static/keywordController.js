@@ -1,7 +1,10 @@
 var keywordApp = angular.module('keywordApp',[]);
 
+//Get base URL
+var getUrl = window.location;
+var BASE_URL = getUrl .protocol + "//" + getUrl.host;
 
-var BASE_URL = "http://localhost:8080"
+keywordApp
 
 keywordApp.controller('404keywordController', function($scope,$window) {
   var url = new URL($window.location);

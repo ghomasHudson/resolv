@@ -11,7 +11,18 @@
 
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-	</head>
+	
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script>
+    $(function() {
+      var getUrl = window.location;
+      var BASE_URL = getUrl .protocol + "//" + getUrl.host;
+
+      $("#url").html(BASE_URL+"/resolve?q=%s");
+    });
+  </script>
+
+  </head>
 <body>
 
     <div class="container">
@@ -29,16 +40,33 @@
       <h1>Getting Started</h1>
       <p>Follow the instructions below for your browser:</p>
       <hr>
-      <h4>Google Chrome</h4>
+      <h4>Google Chrome <img src="chromeLogo.png" height="30"></h4>
       <ol>
-          <li>Right-click the address bar and click 'Edit search engines'. This will display a list of your current engines</li>
+          <li>Right-click the address bar and click 'Edit search engines...'.</li>
           <li>Click the ADD button (Opposite the 'Other search engines' title)</li>
-          <li>Fill in the form:<br>
-            Search engine: resolver<br>
-            Keyword: You can pick any keyword you like but most people use 'go' or 'res'.<br>
-            URL: <code>[BASE_URL]/resolve?q=%s</code>
+          <li>Fill in the form:<br><br>
+            <dl class="dl-horizontal" ng-show="results!=null && keywordLookup.length>0" ng-cloak>
+              <dt>Search engine</dt><dd>resolv</dd>
+              <dt>Keyword</dt><dd>e.g. 'go' or 'res'</dd>
+              <dt>URL</dt><dd><code id="url"></code></dd>
+          </dl>
           </li>
-        </ol>
+          <li>Get resolving! (E.g. go bbc)</li>
+      </ol>
+      
+      <hr>
+
+      <h4>Firefox <img src="firefoxLogo.png" height="30"></h4>
+      <form id="search" action="/resolve" method="get" class="searchbar" autocomplete="off" role="search">
+        <input name="q" placeholder="Search…" value=""  class="form-control" type="text">
+      </form>
+      <ol>
+        <li>Right click the above search box and click "Add Keyword for this Search".</li>
+        <li>Add a suitable keyword, eg. 'go' or 'res'</li>
+        <li>Get resolving!</li>
+      </ol>
+
+
 
 
       <footer class="footer">
