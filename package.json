@@ -18,6 +18,7 @@
   "homepage": "https://github.com/ghomasHudson/resolver#readme",
   "dependencies": {
     "body-parser": "^1.18.1",
+    "dotenv": "^6.0.0",
     "express": "^4.15.4",
     "mongodb": "^2.2.31",
     "request": "^2.82.0"
