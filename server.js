@@ -145,7 +145,7 @@ MongoClient.connect(url, function(err, database){
   db.collection('keywords').createIndex( { "keyword": 1 }, { unique: true } )
   db.createCollection("log", { capped: true, size: 1000 } );
 
-  var port = 80;
+  var port = process.env.PORT || 8080;
 
   app.listen(port, function () {
   console.log('Resolve app listening on port '+port+'!')
