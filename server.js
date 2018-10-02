@@ -13,7 +13,10 @@ var MongoClient = require('mongodb').MongoClient;
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
 var url = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@ds147044.mlab.com:47044/resolver';
-url = process.env.OPENSHIFT_MONGODB_DB_URL
+//url = process.env.OPENSHIFT_MONGODB_DB_URL
+//url = 'mongodb://'+OPENSHIFT_MONGODB_USER+':'+process.env.OPENSHIFT_MONGODB_PASSWORD+'@'+MONGODB_DATABASE+'.mlab.com:47044/resolver';
+url = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME
+
 
 //Helpers
 function validURL(str) {
